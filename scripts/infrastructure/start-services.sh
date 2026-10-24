@@ -2,9 +2,10 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Environment variables with defaults
-POSTGRES_USER=${POSTGRES_USER}
-CHROMADB_URL=${CHROMADB_URL}
+# Export and load environment variables from .env file
+set -a
+source "$SCRIPT_DIR/.env"
+set +a
 
 echo "🚀 Starting Bookonnect services..."
 echo "   PostgreSQL User: $POSTGRES_USER"
