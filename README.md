@@ -5,8 +5,8 @@
 ### Prerequisites
 
 - Start Docker Desktop (or a Docker Engine daemon).
-- Ensure Bash, `curl`, and `docker-compose` are installed. The startup script
-  currently uses `docker-compose`, not `docker compose`.
+- Ensure Bash, `curl`, and `docker-compose` are installed. The infrastructure
+  scripts currently use `docker-compose`, not `docker compose`.
 - Run the commands below from the repository root.
 
 ### 1. Configure the environment
@@ -26,7 +26,7 @@ Use your own local password and do not commit credentials. The file must contain
 valid Bash assignments, without spaces around `=`. Quote values containing spaces
 or shell-special characters.
 
-The startup script loads `.env` from its own directory using `set -a`, `source`,
+The infrastructure scripts load `.env` from their own directory using `set -a`, `source`,
 and `set +a`. This exports its variables to Docker Compose, so you do not need to
 source the file manually. Values assigned in `.env` replace existing shell values.
 Only use a trusted file, because Bash executes its contents.
@@ -67,14 +67,12 @@ message alone does not guarantee the API is healthy.
 
 ### 4. Stop the services
 
-`scripts/infrastructure/stop-services.sh` is currently empty. Use:
-
 ```bash
-docker-compose -f scripts/infrastructure/docker-compose.yml down
+bash scripts/infrastructure/stop-services.sh
 ```
 
-This removes the containers and network but preserves named volumes. Do not add
-`--volumes` unless you intend to delete the stored volume data.
+The script loads `.env`, checks Docker, and runs Compose `down`. This removes the
+containers and network but preserves named volumes.
 
 If only modern `docker compose` is installed, use that spelling for the direct
-Compose commands above. The startup script still requires `docker-compose`.
+Compose commands above. The infrastructure scripts still require `docker-compose`.
