@@ -1,0 +1,14 @@
+/Users/chrismaina/Projects/BookonnectCore/bin/Debug/net8.0/BookonnectCore.deps.json
+/Users/chrismaina/Projects/BookonnectCore/bin/Debug/net8.0/BookonnectCore.runtimeconfig.json
+/Users/chrismaina/Projects/BookonnectCore/bin/Debug/net8.0/BookonnectCore.dll
+/Users/chrismaina/Projects/BookonnectCore/bin/Debug/net8.0/BookonnectCore.pdb
+/Users/chrismaina/Projects/BookonnectCore/obj/Debug/net8.0/BookonnectCore.csproj.AssemblyReference.cache
+/Users/chrismaina/Projects/BookonnectCore/obj/Debug/net8.0/BookonnectCore.GeneratedMSBuildEditorConfig.editorconfig
+/Users/chrismaina/Projects/BookonnectCore/obj/Debug/net8.0/BookonnectCore.AssemblyInfoInputs.cache
+/Users/chrismaina/Projects/BookonnectCore/obj/Debug/net8.0/BookonnectCore.AssemblyInfo.cs
+/Users/chrismaina/Projects/BookonnectCore/obj/Debug/net8.0/BookonnectCore.csproj.CoreCompileInputs.cache
+/Users/chrismaina/Projects/BookonnectCore/obj/Debug/net8.0/BookonnectCore.dll
+/Users/chrismaina/Projects/BookonnectCore/obj/Debug/net8.0/refint/BookonnectCore.dll
+/Users/chrismaina/Projects/BookonnectCore/obj/Debug/net8.0/BookonnectCore.pdb
+/Users/chrismaina/Projects/BookonnectCore/obj/Debug/net8.0/BookonnectCore.genruntimeconfig.cache
+/Users/chrismaina/Projects/BookonnectCore/obj/Debug/net8.0/ref/BookonnectCore.dll

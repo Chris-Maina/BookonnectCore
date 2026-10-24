@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: bookonnect_postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - bookonnect_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+  chromadb:
+    image: chromadb/chromadb:0.6.4.dev226
+    container_name: bookonnect_chromadb
+    ports:
+      - "${CHROMADB_PORT}:8000"
+    volumes:
+      - chromadb-data:/data/chromadb
+    networks:
+      - bookonnect_network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f ${CHROMADB_URL}/api/v1/heartbeat"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres-data:
+  chromadb-data:
+
+networks:
+  bookonnect_network:
+    driver: bridge

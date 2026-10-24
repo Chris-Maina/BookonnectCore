@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>BookonnectCore</id>
+    <version>1.0.0</version>
+    <authors>Chris Maina</authors>
+    <description>Shared core library for Bookonnect system</description>
+    <repository type="git" />
+    <dependencies>
+      <group targetFramework="net8.0">
+        <dependency id="ChromaDB.Client" version="1.0.1-ci-13369893450" exclude="Build,Analyzers" />
+        <dependency id="CsvHelper" version="33.1.0" exclude="Build,Analyzers" />
+        <dependency id="EFCore.BulkExtensions" version="8.1.2" exclude="Build,Analyzers" />
+        <dependency id="MathNet.Numerics" version="5.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.EntityFrameworkCore" version="8.0.11" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.EntityFrameworkCore.Relational" version="8.0.11" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="9.0.10" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration.UserSecrets" version="9.0.10" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="9.0.10" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Http" version="9.0.10" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="9.0.10" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Options" version="9.0.10" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Options.ConfigurationExtensions" version="9.0.10" exclude="Build,Analyzers" />
+        <dependency id="Npgsql.EntityFrameworkCore.PostgreSQL" version="8.0.11" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="/Users/chrismaina/Projects/BookonnectCore/bin/Debug/net8.0/BookonnectCore.runtimeconfig.json" target="lib/net8.0/BookonnectCore.runtimeconfig.json" />
+    <file src="/Users/chrismaina/Projects/BookonnectCore/bin/Debug/net8.0/BookonnectCore.dll" target="lib/net8.0/BookonnectCore.dll" />
+  </files>
+</package>
