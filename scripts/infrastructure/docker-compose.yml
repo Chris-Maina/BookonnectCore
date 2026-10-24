@@ -20,7 +20,7 @@ services:
       timeout: 10s
       retries: 3
   chromadb:
-    image: chromadb/chromadb:0.6.4.dev226
+    image: chromadb/chroma:0.6.4.dev226
     container_name: bookonnect_chromadb
     ports:
       - "${CHROMADB_PORT}:8000"
