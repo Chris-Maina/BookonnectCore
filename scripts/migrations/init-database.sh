@@ -5,17 +5,14 @@ CORE_DIR="$(dirname "$(dirname "$SCRIPT_DIR")")"
 
 echo "🔄 Initializing database..."
 
-# Ensure services are running
-"$CORE_DIR/scripts/infrastructure/start-services.sh"
-
 # Create initial migration if none exists
 if [ ! -d "$CORE_DIR/Migrations" ]; then
     echo "📝 Creating initial migration..."
-    dotnet ef migrations add InitialCreate --project "$CORE_DIR"
+    bash "$SCRIPT_DIR/add-migration.sh" InitialCreate
 fi
 
 # Apply migrations
 echo "⚡ Applying migrations..."
-dotnet ef database update --project "$CORE_DIR"
+bash "$SCRIPT_DIR/run-migrations.sh"
 
 echo "✅ Database initialization completed!"
