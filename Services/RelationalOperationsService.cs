@@ -1,6 +1,7 @@
 namespace BookonnectCore.Services
 {
   using BookonnectCore.Models;
+  using BookonnectCore.Exceptions;
   using BookonnectCore.Services.Interfaces;
   using Microsoft.EntityFrameworkCore;
   using Microsoft.Extensions.DependencyInjection;
@@ -37,7 +38,7 @@ namespace BookonnectCore.Services
         var databaseContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
 
         // Check if database can be connected to
-        var canConnect = await databaseContext.Database.CanConnectAsync();
+        var canConnect = await databaseContext.Database.CanConnectAsync(cancellationToken);
         if (!canConnect)
         {
           _logger.LogInformation("Database not accessible, initializing...");
@@ -133,12 +134,19 @@ namespace BookonnectCore.Services
     }
     #endregion
 
-    public async Task<T> SafeDatabaseReadAsync<T>(Func<DatabaseContext, Task<T>> dbOperation, string operationName)
+    public async Task<T> SafeDatabaseReadAsync<T>(
+      Func<DatabaseContext, Task<T>> dbOperation, string operationName,
+      CancellationToken cancellationToken = default, bool initializeDatabase = true)
     {
       try
       {
-        await EnsureDatabaseInitializedAsync(CancellationToken.None);
-        using var scope = _serviceScopeFactory.CreateScope();
+        cancellationToken.ThrowIfCancellationRequested();
+        if (initializeDatabase)
+        {
+          await EnsureDatabaseInitializedAsync(cancellationToken);
+        }
+        cancellationToken.ThrowIfCancellationRequested();
+        await using var scope = _serviceScopeFactory.CreateAsyncScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
         return await dbOperation(dbContext);
       }
@@ -166,8 +174,8 @@ namespace BookonnectCore.Services
       }
       catch (OperationCanceledException ex)
       {
-        _logger.LogError(ex, "Database operation '{Operation}' was canceled", operationName);
-        throw new InvalidOperationException("Database operation was canceled", ex);
+        _logger.LogInformation(ex, "Database operation '{Operation}' was canceled", operationName);
+        throw;
       }
       catch (SocketException ex)
       {
@@ -181,12 +189,19 @@ namespace BookonnectCore.Services
       }
     }
 
-    public async Task<T> SafeDatabaseWriteAsync<T>(Func<DatabaseContext, Task<T>> dbOperation, string operationName)
+    public async Task<T> SafeDatabaseWriteAsync<T>(
+      Func<DatabaseContext, Task<T>> dbOperation, string operationName,
+      CancellationToken cancellationToken = default, bool initializeDatabase = true)
     {
       try
       {
-        await EnsureDatabaseInitializedAsync(CancellationToken.None);
-        using var scope = _serviceScopeFactory.CreateScope();
+        cancellationToken.ThrowIfCancellationRequested();
+        if (initializeDatabase)
+        {
+          await EnsureDatabaseInitializedAsync(cancellationToken);
+        }
+        cancellationToken.ThrowIfCancellationRequested();
+        await using var scope = _serviceScopeFactory.CreateAsyncScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
         return await dbOperation(dbContext);
       }
@@ -240,8 +255,8 @@ namespace BookonnectCore.Services
       }
       catch (OperationCanceledException ex)
       {
-        _logger.LogError(ex, "Database operation '{Operation}' was canceled", operationName);
-        throw new InvalidOperationException("Database operation was canceled", ex);
+        _logger.LogInformation(ex, "Database operation '{Operation}' was canceled", operationName);
+        throw;
       }
       catch (SocketException ex)
       {
@@ -252,6 +267,10 @@ namespace BookonnectCore.Services
       {
         _logger.LogError(ex, "Database context was disposed during operation '{Operation}'", operationName);
         throw new InvalidOperationException("Database context was disposed prematurely", ex);
+      }
+      catch (AccountLinkRequiredException)
+      {
+        throw;
       }
       catch (Exception ex)
       {

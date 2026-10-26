@@ -43,6 +43,7 @@ namespace BookonnectCore.Extensions
       services.AddScoped<IRelationalOperationsService, RelationalOperationsService>();
       services.AddScoped<IDatabaseSyncService, DatabaseSyncService>();
       services.AddScoped<IBookService, BookService>();
+      services.AddScoped<IUserAccountService, UserAccountService>();
       services.AddScoped<IPreferenceService, PreferenceService>();
       services.AddScoped<IEmbeddingGenerationService, EmbeddingGenerationService>();
 
