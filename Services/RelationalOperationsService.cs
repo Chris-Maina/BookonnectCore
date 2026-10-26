@@ -124,12 +124,12 @@ namespace BookonnectCore.Services
         _logger.LogInformation("Applying {Count} pending migrations: {Migrations}",
           pendingMigrations.Count(), string.Join(", ", pendingMigrations));
         await dbContext.Database.MigrateAsync(cancellationToken);
-        return;
       }
       // Verify tables exist by attempting to query them
       await dbContext.Books.AnyAsync(cancellationToken);
       await dbContext.Users.AnyAsync(cancellationToken);
       await dbContext.Preferences.AnyAsync(cancellationToken);
+      await dbContext.ExternalAccounts.AnyAsync(cancellationToken);
       _logger.LogDebug("Database schema verified - all tables accessible");
     }
     #endregion
