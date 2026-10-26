@@ -1,1 +1,22 @@
 **/.env*
+!.env.example
+!.env.sample
+!.env.template
+secrets.json
+/.mcp.json
+
+# Build and package output
+[Bb]in/
+[Oo]bj/
+*.nupkg
+*.snupkg
+TestResults/
+*.log
+
+# Local IDE and OS files
+.vs/
+.idea/
+*.user
+*.suo
+*.userprefs
+.DS_Store
