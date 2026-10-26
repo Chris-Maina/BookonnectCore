@@ -11,10 +11,21 @@ namespace BookonnectCore.Models
     public DbSet<Book> Books { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<Preference> Preferences { get; set; }
+    public DbSet<ExternalAccount> ExternalAccounts { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       base.OnModelCreating(modelBuilder);
+
+      modelBuilder.Entity<ExternalAccount>(account =>
+      {
+        account.Property(a => a.Provider).HasMaxLength(32);
+        account.Property(a => a.ProviderSubject).HasMaxLength(255);
+        account.Property(a => a.NormalizedEmail).HasMaxLength(255);
+        account.HasIndex(a => new { a.Provider, a.ProviderSubject }).IsUnique();
+        account.HasIndex(a => a.NormalizedEmail).IsUnique();
+        account.HasOne(a => a.User).WithMany().HasForeignKey(a => a.UserId);
+      });
 
       // Configure relationships
       modelBuilder.Entity<Preference>()
