@@ -1,5 +1,6 @@
 namespace BookonnectCore.Services
 {
+  using BookonnectCore.Exceptions;
   using BookonnectCore.Models;
   using Microsoft.EntityFrameworkCore;
   using Microsoft.Extensions.Logging;
@@ -59,7 +60,7 @@ namespace BookonnectCore.Services
           if (bookExists)
           {
             _logger.LogWarning("Book with ISBN13 {ISBN13} already exists", book.ISBN13);
-            throw new InvalidOperationException($"Book with ISBN13 '{book.ISBN13}' already exists");
+            throw new AlreadyExistsException($"Book with ISBN13 '{book.ISBN13}' already exists");
           }
 
           dbContext.Books.Add(book);
@@ -86,7 +87,7 @@ namespace BookonnectCore.Services
           if (existingBook == null)
           {
             _logger.LogWarning("Book with ISBN13 {ISBN13} not found for update", book.ISBN13);
-            throw new InvalidOperationException($"Book with ISBN13 '{book.ISBN13}' does not exist");
+            throw new NotFoundException($"Book with ISBN13 '{book.ISBN13}' does not exist");
           }
 
           dbContext.Entry(existingBook).CurrentValues.SetValues(book);
@@ -110,7 +111,7 @@ namespace BookonnectCore.Services
           var book = await dbContext.Books.AsNoTracking().FirstOrDefaultAsync(b => b.ISBN13 == isbn13);
           if (book == null)
           {
-            throw new InvalidOperationException("Book not found");
+            throw new NotFoundException("Book not found");
           }
           dbContext.Books.Remove(book);
           await dbContext.SaveChangesAsync();

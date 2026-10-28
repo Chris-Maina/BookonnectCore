@@ -272,10 +272,18 @@ namespace BookonnectCore.Services
       {
         throw;
       }
+      catch (NotFoundException)
+      {
+        throw;
+      }
+      catch (AlreadyExistsException)
+      {
+        throw;
+      }
       catch (Exception ex)
       {
-        _logger.LogError(ex, "Unexpected error during database add operation '{Operation}'", operationName);
-        throw new InvalidOperationException($"Database add operation '{operationName}' failed", ex);
+        _logger.LogError(ex, "Unexpected error during database operation '{Operation}'", operationName);
+        throw new InvalidOperationException($"Database operation '{operationName}' failed", ex);
       }
     }
   }

@@ -1,5 +1,6 @@
 namespace BookonnectCore.Services
 {
+  using BookonnectCore.Exceptions;
   using BookonnectCore.Models;
   using BookonnectCore.Services.Interfaces;
   using Microsoft.EntityFrameworkCore;
@@ -151,7 +152,7 @@ namespace BookonnectCore.Services
           if (exists)
           {
             _logger.LogWarning("Preference for UserId {UserId} and BookId {BookId} already exists", preference.UserId, preference.BookId);
-            throw new InvalidOperationException("Preference already exists for this user and book");
+            throw new AlreadyExistsException("Preference already exists for this user and book");
           }
           dbContext.Preferences.Add(preference);
           await dbContext.SaveChangesAsync();
@@ -177,7 +178,7 @@ namespace BookonnectCore.Services
           if (existingPreference == null)
           {
             _logger.LogWarning("Preference with Id {Id} not found", preference.Id);
-            throw new InvalidOperationException("Preference not found");
+            throw new NotFoundException("Preference not found");
           }
 
           dbContext.Entry(existingPreference).CurrentValues.SetValues(preference);
@@ -202,7 +203,7 @@ namespace BookonnectCore.Services
           if (existingPreference == null)
           {
             _logger.LogWarning("Preference with Id {Id} not found", preferenceId);
-            throw new InvalidOperationException("Preference not found");
+            throw new NotFoundException("Preference not found");
           }
 
           dbContext.Preferences.Remove(existingPreference);
